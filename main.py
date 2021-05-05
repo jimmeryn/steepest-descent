@@ -1,16 +1,14 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from mns import MNS
-from goldstein import Goldstein
+from goldstein import goldstein
 
 def main():
     # TEST
-    mns = MNS()
-    mns.test()
-    x = np.linspace(0, 20, 100)
-    plt.plot(x, np.sin(x))
-    plt.show()
-    Goldstein()
+    # mns = MNS()
+    # mns.test()
+
+    goldstein(np.array([0, 0, 0]), np.array([1, 0, 0]), 0, 0, 0, 0)
 
 
 if __name__ == "__main__":
