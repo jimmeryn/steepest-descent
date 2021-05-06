@@ -5,7 +5,9 @@ Method of steepest descent - metoda najszybszego spadku
 ## TODO
 
 1. Jądro programu:
-- [ ] MNS z metodą gradientu w kierunku bisekcji z testem dwuskośnym Goldsteina (2<=n<=5) algorytm się zatrzymuje osiągając jedno z kryteriów stopu
+- [ ] MNS 
+- [ ] Bisekcja z testem dwuskośnym Goldsteina
+- [ ] Działanie dla wszystkich rozpatrywanych funkcji testowych
 
 2. UI:
 - [ ] Widać kolejne kroki i znalezione rozwiązanie optymalne
