@@ -14,7 +14,7 @@ def main():
     eq = Equation();
     print(eq.formula)
     print(eq.variables)
-    goldstein(sp.Matrix([3, 2, 1]), sp.Matrix([1, 0, 0]), 0, 0, 0, 0)
+    goldstein(sp.Matrix([3, 2, 1]), sp.Matrix([1, -1, 1]), 0, 0.01, 0, 0)
 
 
 if __name__ == "__main__":

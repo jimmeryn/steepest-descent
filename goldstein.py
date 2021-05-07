@@ -7,17 +7,19 @@ from numpy import array
 # start - punkt początkowy
 # d - kierunek, wektor, a może nawet i wersor
 # beta - wspolczynnik testu
-# step - początkowa wartość kroku
+# tauR - początkowa wartość kroku
 # epsilon - dokładność odnosząca się do warunku stopu
 # function - wpisana przez użytkownika funkcja
 
 
-def goldstein(start, d, beta, step, epsilon, function):
+def goldstein(start, d, beta, tauR, epsilon, function):
     problem_size = sp.shape(start)[0]  # ilość zmiennych uzależniam od wymiaru punktu startowego, co może nie być najlepszym pomysłem
     if problem_size < 2:
         print("Błąd, za mało zmiennych.")
     if problem_size > 5:
         print("Błąd, za dużo zmiennych.")
+    if tauR <= 0:
+        print("Błąd, współczynnik kroku nie większy od zera.")
     grad = []
     variables = []
     x1, x2, x3 = sp.symbols('x1 x2 x3')
@@ -72,10 +74,23 @@ def goldstein(start, d, beta, step, epsilon, function):
     p = grad0.T*d  # p jest skalarem, ale w sympy wynik mnożenia macierzy zawsze jest macierzą, więc to przypisanie jest
     p = p[0]       #  konieczne dla zamierzonego efektu, tu można też dodać obsługę błędu, gdyby p jednak nie było skalarem
                    # otrzymane p jest pochodną w kierunku i jej obliczenie, to pierwszy krok w Goldsteinie
-    #print(problem_size)
     print(grad0.T)
     print(d)
     print(p)
 
+    print()
 
-    #print(variables_for_grad_x1)
+    tauL = 0  # tak by wynikało z pokazanego przykładu, nie mam pewności
+
+    replacementstauR = [('x'+ str(i), start[i-1]+tauR*d[i-1]) for i in range(1, problem_size+1)]
+    replacements0 = [('x' + str(i), start[i - 1]) for i in range(1, problem_size + 1)]
+    # sprawdzenie warunku z kroku 1
+    if not fun.subs(replacementstauR).evalf() < fun.subs(replacements0).evalf():
+        print("Coś nie tak z tauR lub kierunkiem")
+
+    # krok 2
+    tau = 1/2*(tauL+tauR)
+    replacementstau = [('x' + str(i), start[i - 1]+tau*d[i-1]) for i in range(1, problem_size + 1)]
+    fxtaud = fun.subs(replacementstau).evalf()
+
+    #krok 3
