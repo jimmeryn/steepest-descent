@@ -14,7 +14,9 @@ def main():
     #eq = Equation();
     #print(eq.formula)
     #print(eq.variables)
-    goldstein(sp.Matrix([0, 0]), sp.Matrix([1, 0]), 2/5, 9, 0)
+
+    # nie wiem co zrobilem źle, tutaj przy tauR = 3.5 znajduje wynik po 12 iteracjach, a dla tauR = 3.7 nie znajduje
+    goldstein(sp.Matrix([0, 0]), sp.Matrix([1, 0]), 2/5, 3.6, 0.001, 'atan(x1)+x2**2')
 
 
 if __name__ == "__main__":
