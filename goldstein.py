@@ -1,4 +1,5 @@
 import sympy as sp
+from errorhandlers.goldstein_values_exception import goldstein_values_exception
 
 # Wstępnie rozpisze goldsteina jako pojedyncza funkcje i potem ewentualnie to sie jakos rozbije
 # bo jeszcze sam do konca nie jestem pewien jak to powinno dzialac
@@ -13,16 +14,7 @@ import sympy as sp
 
 def goldstein(start, d, beta, tauR, epsilon, function):
     problem_size = sp.shape(start)[0]  # ilość zmiennych uzależniam od wymiaru punktu startowego
-
-    # poniższe warunki są konieczne i trzeba do nich rozpisać obsługę błędów, niekoniecznie w tym pliku
-    if problem_size < 2:
-        print("Błąd, za mało zmiennych.")
-    if problem_size > 5:
-        print("Błąd, za dużo zmiennych.")
-    if tauR <= 0:
-        print("Błąd, współczynnik kroku nie większy od zera.")
-    if beta >= 1 or beta <= 0:
-        print("Błąd, współczynnik testu powinien być między 0, a 1")
+    goldstein_values_exception(problem_size, tauR, beta)
 
     grad = []  # gradient na symbolach, lista w praktyce zawierająca między 2, a 5 elementów
     variables = []  # lista zmiennych wstepnie bym przyjął zgodnie z konwencją x1, x2, x3...
