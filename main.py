@@ -4,12 +4,12 @@ from mns import MNS
 from goldstein import goldstein
 import sympy as sp
 from Equation import Equation
+from visualisation import visualisation
+from testFunctions import goldstein_price_function
 
 
 def main():
-    # TEST
-    # mns = MNS()
-    # mns.test()
+    visualisation(goldstein_price_function)
     
     #eq = Equation();
     #print(eq.formula)
