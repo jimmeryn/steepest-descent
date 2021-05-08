@@ -23,10 +23,12 @@ def goldstein(start, d, beta, tauR, epsilon, function):
     fun = sp.parse_expr(function)
     print(fun)
 
-    #krok 1
+    # krok 1
     # na listę zmiennych wrzucamy kolejne zmienne zależnie od rozmiaru zadania
-    for i in range(1, problem_size+1):
-        variables.append(sp.symbols('x'+str(i)))  # zgodnie z tą konwencją wsyzstkie zmienne muszą być wprowadzane, jako xn
+    for i in range(1, problem_size + 1):
+        variables.append(
+            sp.symbols("x" + str(i))
+        )  # zgodnie z tą konwencją wsyzstkie zmienne muszą być wprowadzane, jako xn
     for i in range(0, problem_size):
         grad.append(sp.Derivative(fun, variables[i], evaluate=True))  # Tworzę listę z kolejnych pochodnych cząstkowych
 
@@ -34,9 +36,9 @@ def goldstein(start, d, beta, tauR, epsilon, function):
     grad03 = 0
     grad04 = 0
     grad05 = 0
-    #print(sp.Derivative(sp.log(x1,3),'x1', evaluate=True))
+    # print(sp.Derivative(sp.log(x1,3),'x1', evaluate=True))
     # wektor zastąpień do metody subs, robi robote
-    replacements0 = [('x' + str(i), start[i - 1]) for i in range(1, problem_size + 1)]
+    replacements0 = [("x" + str(i), start[i - 1]) for i in range(1, problem_size + 1)]
     # poniżej dość prymitywnie, ale na potrzeby projektu wystarczająco
     grad01 = grad[0].subs(replacements0).evalf()
     grad02 = grad[1].subs(replacements0).evalf()
@@ -56,13 +58,15 @@ def goldstein(start, d, beta, tauR, epsilon, function):
     if problem_size == 5:
         grad0 = sp.Matrix([grad01, grad02, grad03, grad04, grad05])
 
-    p = grad0.T*d  # p jest skalarem, ale w sympy wynik mnożenia macierzy zawsze jest macierzą, więc to przypisanie jest
-    p = p[0]       #  konieczne dla zamierzonego efektu, tu można też dodać obsługę błędu, gdyby p jednak nie było skalarem
-                   # otrzymane p jest pochodną w kierunku i jej obliczenie, to pierwszy krok w Goldsteinie
+    p = (
+        grad0.T * d
+    )  # p jest skalarem, ale w sympy wynik mnożenia macierzy zawsze jest macierzą, więc to przypisanie jest
+    p = p[0]  #  konieczne dla zamierzonego efektu, tu można też dodać obsługę błędu, gdyby p jednak nie było skalarem
+    # otrzymane p jest pochodną w kierunku i jej obliczenie, to pierwszy krok w Goldsteinie
 
     tauL = 0  # tak by wynikało z pokazanego przykładu, nie mam pewności
 
-    replacementstauR = [('x'+ str(i), start[i-1] + tauR * d[i-1]) for i in range(1, problem_size+1)]
+    replacementstauR = [("x" + str(i), start[i - 1] + tauR * d[i - 1]) for i in range(1, problem_size + 1)]
 
     # sprawdzenie warunku
     if not fun.subs(replacementstauR).evalf() < fun.subs(replacements0).evalf():
@@ -70,27 +74,29 @@ def goldstein(start, d, beta, tauR, epsilon, function):
 
     # poniżej główna pętla algorytmu, bez większej filozofii, zgodnie ze źródłami
     # krok 2
-    k=0
-    while k<100:
-        tau = 1/2*(tauL+tauR)
-        replacementstau = [('x' + str(i), start[i - 1]+tau*d[i-1]) for i in range(1, problem_size + 1)]
+    k = 0
+    while k < 100:
+        tau = 1 / 2 * (tauL + tauR)
+        replacementstau = [("x" + str(i), start[i - 1] + tau * d[i - 1]) for i in range(1, problem_size + 1)]
         fxtaud = fun.subs(replacementstau).evalf()
-        k +=1
+        k += 1
         print(fun.subs(replacements0).evalf() + (1 - beta) * p * tau)
-        print(fun.subs(replacements0).evalf() + beta*p*tau)
+        print(fun.subs(replacements0).evalf() + beta * p * tau)
         print(fxtaud)
         # krok 3
-        if fxtaud < fun.subs(replacements0).evalf() + (1-beta)*p*tau-epsilon:  # nie jestem pewien cyz sensownie tu te epsilony postawilem
+        if (
+            fxtaud < fun.subs(replacements0).evalf() + (1 - beta) * p * tau - epsilon
+        ):  # nie jestem pewien cyz sensownie tu te epsilony postawilem
             tauL = tau
         # krok 4
-        elif fxtaud > fun.subs(replacements0).evalf() + beta*p*tau+epsilon:
+        elif fxtaud > fun.subs(replacements0).evalf() + beta * p * tau + epsilon:
             tauR = tau
         else:
-            print("Ilość iteracji Goldstein: "+str(k))
-            print("Tau: "+str(tau))  # test
+            print("Ilość iteracji Goldstein: " + str(k))
+            print("Tau: " + str(tau))  # test
             return tau
     # jeśli w odpowiedniej liczbie iteracji nie dojdziemy do zadanego tau, to zwracamy do czego doszliśmy
-    print("Nie udało się znaleźć warotści tau z zadaną dokłandością, po "+str(k)+" iteracjach.")
+    print("Nie udało się znaleźć warotści tau z zadaną dokłandością, po " + str(k) + " iteracjach.")
 
     print(tau)
     return 0
