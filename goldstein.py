@@ -6,7 +6,7 @@ from errorhandlers.goldstein_values_exception import goldstein_values_exception
 
 # start - punkt początkowy
 # d - kierunek będący wektorem
-# beta - wspolczynnik testu
+# beta - wspolczynnik testu (0, 1/2)
 # tauR - początkowa wartość kroku
 # epsilon - dokładność
 # function - wpisana przez użytkownika funkcja, to trzeba dostosować do parsera
@@ -21,7 +21,7 @@ def goldstein(start, d, beta, tauR, epsilon, function):
 
     # poniżej test, w tym miejscu trzeba odpowiednio podstawić function pod fun
     fun = sp.parse_expr(function)
-    print(fun)
+    # print(fun)
 
     # krok 1
     # na listę zmiennych wrzucamy kolejne zmienne zależnie od rozmiaru zadania
@@ -60,8 +60,8 @@ def goldstein(start, d, beta, tauR, epsilon, function):
 
     p = (
         grad0.T * d
-    )  # p jest skalarem, ale w sympy wynik mnożenia macierzy zawsze jest macierzą, więc to przypisanie jest
-    p = p[0]  #  konieczne dla zamierzonego efektu, tu można też dodać obsługę błędu, gdyby p jednak nie było skalarem
+    )[0]  # p jest skalarem, ale w sympy wynik mnożenia macierzy zawsze jest macierzą, więc to przypisanie jest
+    # p = p[0]  #  konieczne dla zamierzonego efektu, tu można też dodać obsługę błędu, gdyby p jednak nie było skalarem
     # otrzymane p jest pochodną w kierunku i jej obliczenie, to pierwszy krok w Goldsteinie
 
     tauL = 0  # tak by wynikało z pokazanego przykładu, nie mam pewności
@@ -69,28 +69,37 @@ def goldstein(start, d, beta, tauR, epsilon, function):
     replacementstauR = [("x" + str(i), start[i - 1] + tauR * d[i - 1]) for i in range(1, problem_size + 1)]
 
     # sprawdzenie warunku
-    if not fun.subs(replacementstauR).evalf() < fun.subs(replacements0).evalf():
-        print("Warunek (1) nie zachodzi")
+    if fun.subs(replacementstauR).evalf() < fun.subs(replacements0).evalf():
+        return tauR
+        # print("f(x0 + taud) = " + str(fun.subs(replacementstauR).evalf()))
+        # print("f(x0) = " + str(fun.subs(replacements0).evalf()))
+        # print("Warunek (1) nie zachodzi")
 
     # poniżej główna pętla algorytmu, bez większej filozofii, zgodnie ze źródłami
     # krok 2
     k = 0
-    while k < 100:
+    while k < 1000:
+
         tau = 1 / 2 * (tauL + tauR)
+        if k<1:
+            tau = tauR
         replacementstau = [("x" + str(i), start[i - 1] + tau * d[i - 1]) for i in range(1, problem_size + 1)]
         fxtaud = fun.subs(replacementstau).evalf()
         k += 1
-        print(fun.subs(replacements0).evalf() + (1 - beta) * p * tau)
-        print(fun.subs(replacements0).evalf() + beta * p * tau)
-        print(fxtaud)
+        # print(fun.subs(replacements0).evalf() + (1 - beta) * p * tau)
+        # print(fun.subs(replacements0).evalf() + beta * p * tau)
+        # print(fun.subs(replacements0).evalf())
+        # print(fxtaud)
         # krok 3
         if (
             fxtaud < fun.subs(replacements0).evalf() + (1 - beta) * p * tau - epsilon
         ):  # nie jestem pewien cyz sensownie tu te epsilony postawilem
             tauL = tau
+            print("weszlo tauL")
         # krok 4
         elif fxtaud > fun.subs(replacements0).evalf() + beta * p * tau + epsilon:
             tauR = tau
+            print("weszlo tauR")
         else:
             print("Ilość iteracji Goldstein: " + str(k))
             print("Tau: " + str(tau))  # test
