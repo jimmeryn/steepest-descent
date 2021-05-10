@@ -2,7 +2,7 @@ import sympy as sp
 from goldstein import goldstein
 
 
-def mns(start, epsilon, L, beta, tau0, function):
+def mns(start, epsilon: float, L:int, beta: float, tau0: int, function: str):
     fun = sp.parse_expr(function)
     xk = start
     problem_size = sp.shape(start)[0]

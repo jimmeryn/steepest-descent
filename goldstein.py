@@ -12,7 +12,7 @@ from errorhandlers.goldstein_values_exception import goldstein_values_exception
 # function - wpisana przez użytkownika funkcja, to trzeba dostosować do parsera
 
 
-def goldstein(start, d, beta, tauR, epsilon, function):
+def goldstein(start, d: float, beta: int, tauR: float, epsilon: int, function: str):
     problem_size = sp.shape(start)[0]  # ilość zmiennych uzależniam od wymiaru punktu startowego
     goldstein_values_exception(problem_size, tauR, beta)
 
@@ -58,9 +58,9 @@ def goldstein(start, d, beta, tauR, epsilon, function):
     if problem_size == 5:
         grad0 = sp.Matrix([grad01, grad02, grad03, grad04, grad05])
 
-    p = (
-        grad0.T * d
-    )[0]  # p jest skalarem, ale w sympy wynik mnożenia macierzy zawsze jest macierzą, więc to przypisanie jest
+    p = (grad0.T * d)[
+        0
+    ]  # p jest skalarem, ale w sympy wynik mnożenia macierzy zawsze jest macierzą, więc to przypisanie jest
     # p = p[0]  #  konieczne dla zamierzonego efektu, tu można też dodać obsługę błędu, gdyby p jednak nie było skalarem
     # otrzymane p jest pochodną w kierunku i jej obliczenie, to pierwszy krok w Goldsteinie
 
@@ -81,7 +81,7 @@ def goldstein(start, d, beta, tauR, epsilon, function):
     while k < 1000:
 
         tau = 1 / 2 * (tauL + tauR)
-        if k<1:
+        if k < 1:
             tau = tauR
         replacementstau = [("x" + str(i), start[i - 1] + tau * d[i - 1]) for i in range(1, problem_size + 1)]
         fxtaud = fun.subs(replacementstau).evalf()
