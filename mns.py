@@ -25,6 +25,7 @@ def mns(start, epsilon, L, beta, tau0, function):
         grad05 = 0
         if k > 1:
             replacements0 = [("x" + str(i), xk[i - 1]) for i in range(1, problem_size + 1)]
+            oldx = xk
 
         grad01 = grad[0].subs(replacements0).evalf()
         grad02 = grad[1].subs(replacements0).evalf()
@@ -53,8 +54,23 @@ def mns(start, epsilon, L, beta, tau0, function):
         print("kierunek: " + str(dk))
         tau  = goldstein(xk, dk, beta, tau, epsilon, function)
         xk += tau*dk
-        k += 1
-        print("Iteracja: " + str(k-1) + ", Punkt: " + str(xk))
+
+        if k>1:
+            ispointsclose = 0
+            for i in range(0, problem_size):
+                ispointsclose += (xk[i]-oldx[i])**2
+            ispointsclose = sp.sqrt(ispointsclose)
+            if ispointsclose < epsilon:
+                print("Osiągnięto warunek stopu zależny od odległości kolejnych punktów " + str(xk) + " i " + str(oldx) + " po " + str(k) + " iteracjach.")
+                return xk
+
+            replacementsnewk = [("x" + str(i), xk[i - 1]) for i in range(1, problem_size + 1)]
+            isvaluessclose =  abs(fun.subs(replacementsnewk)-fun.subs(replacements0))
+            if isvaluessclose < epsilon:
+                print("Osiągnięto warunek stopu zależny od różnicy kolejnych wartości " + str(fun.subs(replacementsnewk)) + " i " + str(fun.subs(replacements0)) + " w punkcie: " + str(xk) + " po " + str(k) + " iteracjach.")
+                return xk
+
+        print("Iteracja: " + str(k) + ", Punkt: " + str(xk))
 
     print("Nie udało się znaleźć minimum w " + str(k) + " iteracjach.")
     print(xk)
