@@ -1,8 +1,8 @@
 import sympy as sp
 
-
-def function_string_parser(function_string):
+# TODO: make visualisation work for any number of args
+def function_string_parser(function_string: str):
     print(function_string)
-    f = sp.parse_expr(function_string)
-    print(f.symbols())
+    x1, x2 = sp.symbols("x1,x2")
+    f = sp.lambdify([x1, x2], function_string)
     return f

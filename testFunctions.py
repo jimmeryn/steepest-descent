@@ -1,6 +1,3 @@
-# Przy parserze sympy lepiej zadawać funkcje stringami
-
-
 class TestFunctions:
     @staticmethod
     def goldstein_price_function() -> str:
