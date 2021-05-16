@@ -64,7 +64,7 @@ class Ui_MainWindow(object):
         self.groupBox_2.setObjectName("groupBox_2")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.groupBox_2)
         self.gridLayout_2.setObjectName("gridLayout_2")
-        self.textEdit_output = QtWidgets.QTextEdit(self.groupBox_2)
+        self.textEdit_output = QtWidgets.QTextBrowser(self.groupBox_2)
         self.textEdit_output.setObjectName("textEdit_output")
         self.gridLayout_2.addWidget(self.textEdit_output, 0, 0, 1, 1)
         self.groupBox_3 = QtWidgets.QGroupBox(self.centralwidget)
@@ -251,8 +251,8 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.groupBox.setTitle(_translate("MainWindow", "Wejście"))
-        self.lineEdit_test.setText(_translate("MainWindow", "1/4"))
-        self.lineEdit_function.setText(_translate("MainWindow", "3*x1 - x2**2 + sin(x3/2):"))
+        self.lineEdit_test.setText(_translate("MainWindow", "0.25"))
+        self.lineEdit_function.setText(_translate("MainWindow", "3*x1 - x2**2 + sin(x3/2)"))
         self.lineEdit_step_size.setText(_translate("MainWindow", "9"))
         self.label_stop_term.setText(_translate("MainWindow", "Podaj wartość kryteriów stopu:"))
         self.label_function.setText(_translate("MainWindow", "Wprowadź funkcję:"))
@@ -264,15 +264,20 @@ class Ui_MainWindow(object):
         self.label_step_size.setText(_translate("MainWindow", "Początkowa wartość kroku:"))
         self.lineEdit_stop_term.setText(_translate("MainWindow", "0.001"))
         self.groupBox_2.setTitle(_translate("MainWindow", "Logi"))
-        self.textEdit_output.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">tutaj oprócz kolejnych kroków algorytmu można wypisywać wprowadzoną funkcję, to czy znaleziony punkt jest minimum i ewentualnie błędy/wyjątki</p></body></html>"))
+        self.textEdit_output.setHtml(
+            _translate(
+                "MainWindow",
+                '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">\n'
+                '<html><head><meta name="qrichtext" content="1" /><style type="text/css">\n'
+                "p, li { white-space: pre-wrap; }\n"
+                "</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+                '<p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">tutaj oprócz kolejnych kroków algorytmu można wypisywać wprowadzoną funkcję, to czy znaleziony punkt jest minimum i ewentualnie błędy/wyjątki</p></body></html>',
+            )
+        )
         self.groupBox_3.setTitle(_translate("MainWindow", "Wizualizacja"))
         self.groupBox_4.setTitle(_translate("MainWindow", "Szybkie Funkcje"))
         self.pushButton_Himmelblau.setText(_translate("MainWindow", "Zmodyfikowana funkcja Himmelblaua"))
-        self.pushButton_Goldstei_Pirce.setText(_translate("MainWindow", "Funkcja Goldsteina-Pirce\'a"))
+        self.pushButton_Goldstei_Pirce.setText(_translate("MainWindow", "Funkcja Goldsteina-Pirce'a"))
         self.pushButton_Geem.setText(_translate("MainWindow", "Funkcja Geema"))
         self.pushButton_test_function.setText(_translate("MainWindow", "Funkcja testowa"))
         self.groupBox_5.setTitle(_translate("MainWindow", "Start"))
@@ -281,6 +286,7 @@ class Ui_MainWindow(object):
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
