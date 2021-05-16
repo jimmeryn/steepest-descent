@@ -33,7 +33,10 @@ class MainWindow(QtWidgets.QMainWindow):
             line_func,
             self.addLog,
         )
-        self.addCanvas(line_func)
+        try:
+            self.addCanvas(line_func)
+        except:
+            self.addLog("Wymiar problemu > 2")
 
     def addLog(self, log: str):
         self.ui.textEdit_output.append("\n" + log)
