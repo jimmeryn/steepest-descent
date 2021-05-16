@@ -23,7 +23,11 @@ class MainWindow(QtWidgets.QMainWindow):
         line_step_size = self.ui.lineEdit_step_size.text()
         line_stop_term = self.ui.lineEdit_stop_term.text()
         line_test = self.ui.lineEdit_test.text()
-        start_vec = sp.Matrix(list(map(lambda x: float(x), list(line_start_vec.split(", ")))))
+        try:
+            start_vec = sp.Matrix(list(map(lambda x: float(x), list(line_start_vec.split(", ")))))
+        except:
+            self.addLog("Blad w punkcie poczatkowym")
+            return
         self.ui.textEdit_output.setText("")
         result = None
         try:
