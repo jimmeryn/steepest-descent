@@ -10,7 +10,7 @@ from goldstein import goldstein
 # druga składowa natomiast odpowiada za typ ekstremum
 # 0 - minimum
 # 1 - nie wiadomo, ale na pewno nie minimum
-def mns(start, epsilon: float, L: int, beta: float, tau0: float, function: str):
+def mns(start, epsilon: float, L: int, beta: float, tau0: float, function: str, logger):
     fun = sp.parse_expr(function)
     xk = start
     problem_size = sp.shape(start)[0]
@@ -55,7 +55,7 @@ def mns(start, epsilon: float, L: int, beta: float, tau0: float, function: str):
 
         scalar_product = (grad0.T * grad0)[0]
         if scalar_product <= epsilon:
-            print(
+            logger(
                 "Osiągnięto warunek stopu zależny od iloczynu skalarnego gradientów w punkcie "
                 + str(xk)
                 + " po "
@@ -63,15 +63,15 @@ def mns(start, epsilon: float, L: int, beta: float, tau0: float, function: str):
                 + " iteracjach."
             )
             if not is_point_minimum(fun, xk):
-                print("Jednakże znaleziony punkt nie jest minimum.")
+                logger("Jednakże znaleziony punkt nie jest minimum.")
                 vec_xk.append(sp.Matrix([1, 1]))
             else:
                 vec_xk.append(sp.Matrix([1, 0]))
             return vec_xk
 
         dk = -grad0
-        # print("kierunek: " + str(dk))
-        tau = goldstein(xk, dk, beta, tau, epsilon, function)
+        # logger("kierunek: " + str(dk))
+        tau = goldstein(xk, dk, beta, tau, epsilon, function, logger)
         xk += tau * dk
         vec_xk.append(xk)
         if k > 1:
@@ -80,7 +80,7 @@ def mns(start, epsilon: float, L: int, beta: float, tau0: float, function: str):
                 ispointsclose += (xk[i] - oldx[i]) ** 2
             ispointsclose = sp.sqrt(ispointsclose)
             if ispointsclose < epsilon:
-                print(
+                logger(
                     "Osiągnięto warunek stopu zależny od odległości kolejnych punktów "
                     + str(xk)
                     + " i "
@@ -90,7 +90,7 @@ def mns(start, epsilon: float, L: int, beta: float, tau0: float, function: str):
                     + " iteracjach."
                 )
                 if not is_point_minimum(fun, xk):
-                    print("Jednakże znaleziony punkt nie jest minimum.")
+                    logger("Jednakże znaleziony punkt nie jest minimum.")
                     vec_xk.append(sp.Matrix([2, 1]))
                 else:
                     vec_xk.append(sp.Matrix([2, 0]))
@@ -99,7 +99,7 @@ def mns(start, epsilon: float, L: int, beta: float, tau0: float, function: str):
             replacementsnewk = [("x" + str(i), xk[i - 1]) for i in range(1, problem_size + 1)]
             isvaluessclose = abs(fun.subs(replacementsnewk) - fun.subs(replacements0))
             if isvaluessclose < epsilon:
-                print(
+                logger(
                     "Osiągnięto warunek stopu zależny od różnicy kolejnych wartości w punkcie: "
                     + str(xk)
                     + " po "
@@ -108,16 +108,16 @@ def mns(start, epsilon: float, L: int, beta: float, tau0: float, function: str):
                     + str(fun.subs(replacementsnewk))
                 )
                 if not is_point_minimum(fun, xk):
-                    print("Jednakże znaleziony punkt nie jest minimum.")
+                    logger("Jednakże znaleziony punkt nie jest minimum.")
                     vec_xk.append(sp.Matrix([3, 1]))
                 else:
                     vec_xk.append(sp.Matrix([3, 0]))
                 return vec_xk
 
-        print("Iteracja: " + str(k) + ", Punkt: " + str(xk))
+        logger("Iteracja: " + str(k) + ", Punkt: " + str(xk))
 
-    print("Nie udało się znaleźć minimum w " + str(k) + " iteracjach.")
-    print(xk)
+    logger("Nie udało się znaleźć minimum w " + str(k) + " iteracjach.")
+    logger(str(xk))
     return 0
 
 

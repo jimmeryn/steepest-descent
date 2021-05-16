@@ -9,18 +9,20 @@ from errorhandlers.goldstein_values_exception import goldstein_values_exception
 # function - wpisana przez użytkownika funkcja, to trzeba dostosować do parsera
 
 
-def goldstein(start, d, beta: float, tauR: float, epsilon: float, function: str):
+def goldstein(start, d, beta: float, tauR: float, epsilon: float, function: str, logger):
     problem_size = sp.shape(start)[0]  # ilość zmiennych uzależniamy od wymiaru punktu startowego
     goldstein_values_exception(problem_size, tauR, beta)
 
     grad = []  # gradient na symbolach, lista w praktyce zawierająca między 2, a 5 elementów
     variables = []  # lista zmiennych zgodnie z konwencją x1, x2, x3...
     fun = sp.parse_expr(function)
-    # print(fun)
+    # logger(fun)
 
     # krok 1
     for i in range(1, problem_size + 1):
-        variables.append(sp.symbols("x" + str(i)))  # zgodnie z tą konwencją wsyzstkie zmienne muszą być wprowadzane, jako xn
+        variables.append(
+            sp.symbols("x" + str(i))
+        )  # zgodnie z tą konwencją wsyzstkie zmienne muszą być wprowadzane, jako xn
     for i in range(0, problem_size):
         grad.append(sp.Derivative(fun, variables[i], evaluate=True))  # Tworzę listę z kolejnych pochodnych cząstkowych
 
@@ -75,9 +77,7 @@ def goldstein(start, d, beta: float, tauR: float, epsilon: float, function: str)
         k += 1
 
         # krok 3
-        if (
-            fxtaud < fun.subs(replacements0).evalf() + (1 - beta) * p * tau - epsilon
-        ):
+        if fxtaud < fun.subs(replacements0).evalf() + (1 - beta) * p * tau - epsilon:
             tauL = tau
 
         # krok 4
@@ -87,7 +87,7 @@ def goldstein(start, d, beta: float, tauR: float, epsilon: float, function: str)
         else:
             return tau
     # jeśli w odpowiedniej liczbie iteracji nie dojdziemy do zadanego tau, to zwracamy do czego doszliśmy
-    print("Nie udało się znaleźć warotści tau z zadaną dokłandością, po " + str(k) + " iteracjach.")
+    logger("Nie udało się znaleźć warotści tau z zadaną dokłandością, po " + str(k) + " iteracjach.")
 
-    print(tau)
+    logger(tau)
     return 0

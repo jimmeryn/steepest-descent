@@ -23,6 +23,7 @@ class MainWindow(QtWidgets.QMainWindow):
         line_stop_term = self.ui.lineEdit_stop_term.text()
         line_test = self.ui.lineEdit_test.text()
         start_vec = sp.Matrix(list(map(lambda x: float(x), list(line_start_vec.split(", ")))))
+        self.ui.textEdit_output.setText("")
         mns(
             start_vec,
             float(line_stop_term),
@@ -30,11 +31,12 @@ class MainWindow(QtWidgets.QMainWindow):
             float(line_test),
             float(line_step_size),
             line_func,
+            self.addLog,
         )
         self.addCanvas(line_func)
 
     def addLog(self, log: str):
-        self.ui.textEdit_output.setText(self.ui.textEdit_output.text() + "\n" + log)
+        self.ui.textEdit_output.append("\n" + log)
 
     def addCanvas(self, line_func: str):
         func = function_string_parser(line_func)
