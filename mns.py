@@ -10,7 +10,7 @@ from goldstein import goldstein
 # druga składowa natomiast odpowiada za typ ekstremum
 # 0 - minimum
 # 1 - nie wiadomo, ale na pewno nie minimum
-def mns(start, epsilon: float, L:int, beta: float, tau0: float, function: str):
+def mns(start, epsilon: float, L: int, beta: float, tau0: float, function: str):
     fun = sp.parse_expr(function)
     xk = start
     problem_size = sp.shape(start)[0]
@@ -18,14 +18,12 @@ def mns(start, epsilon: float, L:int, beta: float, tau0: float, function: str):
     grad = []
 
     for i in range(1, problem_size + 1):
-        variables.append(
-            sp.symbols("x" + str(i))
-        )
+        variables.append(sp.symbols("x" + str(i)))
     replacements0 = [("x" + str(i), start[i - 1]) for i in range(1, problem_size + 1)]
     tau = tau0
     vec_xk = []
     vec_xk.append(start)
-    for k in range(1, L+1):
+    for k in range(1, L + 1):
 
         for i in range(0, problem_size):
             grad.append(sp.Derivative(fun, variables[i], evaluate=True))
@@ -57,26 +55,40 @@ def mns(start, epsilon: float, L:int, beta: float, tau0: float, function: str):
 
         scalar_product = (grad0.T * grad0)[0]
         if scalar_product <= epsilon:
-            print("Osiągnięto warunek stopu zależny od iloczynu skalarnego gradientów w punkcie " + str(xk) + " po " + str(k) + " iteracjach.")
+            print(
+                "Osiągnięto warunek stopu zależny od iloczynu skalarnego gradientów w punkcie "
+                + str(xk)
+                + " po "
+                + str(k)
+                + " iteracjach."
+            )
             if not is_point_minimum(fun, xk):
                 print("Jednakże znaleziony punkt nie jest minimum.")
-                vec_xk.append(sp.Matrix([1,1]))
+                vec_xk.append(sp.Matrix([1, 1]))
             else:
                 vec_xk.append(sp.Matrix([1, 0]))
             return vec_xk
 
         dk = -grad0
         # print("kierunek: " + str(dk))
-        tau  = goldstein(xk, dk, beta, tau, epsilon, function)
-        xk += tau*dk
+        tau = goldstein(xk, dk, beta, tau, epsilon, function)
+        xk += tau * dk
         vec_xk.append(xk)
-        if k>1:
+        if k > 1:
             ispointsclose = 0
             for i in range(0, problem_size):
-                ispointsclose += (xk[i]-oldx[i])**2
+                ispointsclose += (xk[i] - oldx[i]) ** 2
             ispointsclose = sp.sqrt(ispointsclose)
             if ispointsclose < epsilon:
-                print("Osiągnięto warunek stopu zależny od odległości kolejnych punktów " + str(xk) + " i " + str(oldx) + " po " + str(k) + " iteracjach.")
+                print(
+                    "Osiągnięto warunek stopu zależny od odległości kolejnych punktów "
+                    + str(xk)
+                    + " i "
+                    + str(oldx)
+                    + " po "
+                    + str(k)
+                    + " iteracjach."
+                )
                 if not is_point_minimum(fun, xk):
                     print("Jednakże znaleziony punkt nie jest minimum.")
                     vec_xk.append(sp.Matrix([2, 1]))
@@ -85,9 +97,16 @@ def mns(start, epsilon: float, L:int, beta: float, tau0: float, function: str):
                 return vec_xk
 
             replacementsnewk = [("x" + str(i), xk[i - 1]) for i in range(1, problem_size + 1)]
-            isvaluessclose =  abs(fun.subs(replacementsnewk)-fun.subs(replacements0))
+            isvaluessclose = abs(fun.subs(replacementsnewk) - fun.subs(replacements0))
             if isvaluessclose < epsilon:
-                print("Osiągnięto warunek stopu zależny od różnicy kolejnych wartości w punkcie: " + str(xk) + " po " + str(k) + " iteracjach, osiągając wartość: " + str(fun.subs(replacementsnewk)))
+                print(
+                    "Osiągnięto warunek stopu zależny od różnicy kolejnych wartości w punkcie: "
+                    + str(xk)
+                    + " po "
+                    + str(k)
+                    + " iteracjach, osiągając wartość: "
+                    + str(fun.subs(replacementsnewk))
+                )
                 if not is_point_minimum(fun, xk):
                     print("Jednakże znaleziony punkt nie jest minimum.")
                     vec_xk.append(sp.Matrix([3, 1]))
@@ -97,10 +116,10 @@ def mns(start, epsilon: float, L:int, beta: float, tau0: float, function: str):
 
         print("Iteracja: " + str(k) + ", Punkt: " + str(xk))
 
-
     print("Nie udało się znaleźć minimum w " + str(k) + " iteracjach.")
     print(xk)
     return 0
+
 
 # zwraca true jesli punkt jest minimum funkcji, false jeśli nie ma do tego pewnosci
 def is_point_minimum(function, point):
@@ -115,16 +134,54 @@ def is_point_minimum(function, point):
 
     for i in range(0, problem_size):
         for j in range(0, problem_size):
-            hess.append(sp.Derivative(sp.Derivative(function, variables[i], evaluate=True), variables[j], evaluate=True))
+            hess.append(
+                sp.Derivative(sp.Derivative(function, variables[i], evaluate=True), variables[j], evaluate=True)
+            )
 
     # stworzenie długiej listy, by następnie budować z niej macierze jest karkołomne, ale inaczej nie potrafie
-    hesjan2 = sp.Matrix([[hess[0], hess[1]],[hess[2+problem_size-2],hess[3+problem_size-2]]])
+    hesjan2 = sp.Matrix([[hess[0], hess[1]], [hess[2 + problem_size - 2], hess[3 + problem_size - 2]]])
     if problem_size > 2:
-        hesjan3 = sp.Matrix([[hess[0], hess[1], hess[2]],[hess[3+problem_size-3],hess[4+problem_size-3],hess[5+problem_size-3]],[hess[6+problem_size-3],hess[7+problem_size-3],hess[8+problem_size-3]]])
+        hesjan3 = sp.Matrix(
+            [
+                [hess[0], hess[1], hess[2]],
+                [hess[3 + problem_size - 3], hess[4 + problem_size - 3], hess[5 + problem_size - 3]],
+                [hess[6 + problem_size - 3], hess[7 + problem_size - 3], hess[8 + problem_size - 3]],
+            ]
+        )
     if problem_size > 3:
-        hesjan4 = sp.Matrix([[hess[0], hess[1], hess[2], hess[3]],[hess[4+problem_size-4],hess[5+problem_size-4], hess[6+problem_size-4], hess[7+problem_size-4]],[hess[8+problem_size-4],hess[9+problem_size-4],hess[10+problem_size-4],hess[11+problem_size-4]],[hess[12+problem_size-4],hess[13+problem_size-4],hess[14+problem_size-4],hess[15+problem_size-4]]])
+        hesjan4 = sp.Matrix(
+            [
+                [hess[0], hess[1], hess[2], hess[3]],
+                [
+                    hess[4 + problem_size - 4],
+                    hess[5 + problem_size - 4],
+                    hess[6 + problem_size - 4],
+                    hess[7 + problem_size - 4],
+                ],
+                [
+                    hess[8 + problem_size - 4],
+                    hess[9 + problem_size - 4],
+                    hess[10 + problem_size - 4],
+                    hess[11 + problem_size - 4],
+                ],
+                [
+                    hess[12 + problem_size - 4],
+                    hess[13 + problem_size - 4],
+                    hess[14 + problem_size - 4],
+                    hess[15 + problem_size - 4],
+                ],
+            ]
+        )
     if problem_size > 4:
-        hesjan5 = sp.Matrix([[hess[0], hess[1], hess[2], hess[3], hess[4]],[hess[5],hess[6],hess[7],hess[8],hess[9]],[hess[10],hess[11],hess[12],hess[13],hess[14]],[hess[15],hess[16],hess[17],hess[18],hess[19]],[hess[20],hess[21],hess[22],hess[23],hess[24]]])
+        hesjan5 = sp.Matrix(
+            [
+                [hess[0], hess[1], hess[2], hess[3], hess[4]],
+                [hess[5], hess[6], hess[7], hess[8], hess[9]],
+                [hess[10], hess[11], hess[12], hess[13], hess[14]],
+                [hess[15], hess[16], hess[17], hess[18], hess[19]],
+                [hess[20], hess[21], hess[22], hess[23], hess[24]],
+            ]
+        )
 
     # sprawdzam wszystkie podwyznaczniki hesjanu, jesli sa dodatnie, to punkt jest minimum
     if hess[0].subs(replacements) <= 0:
