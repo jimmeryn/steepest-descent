@@ -5,6 +5,7 @@ from ui.ui_first_attempt import Ui_MainWindow
 from PyQt5 import QtWidgets
 from functionStringParser import function_string_parser
 import sympy as sp
+from errorhandlers.ProblemSizeError import ProblemSizeError
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -24,15 +25,21 @@ class MainWindow(QtWidgets.QMainWindow):
         line_test = self.ui.lineEdit_test.text()
         start_vec = sp.Matrix(list(map(lambda x: float(x), list(line_start_vec.split(", ")))))
         self.ui.textEdit_output.setText("")
-        result = mns(
-            start_vec,
-            float(line_stop_term),
-            int(line_iter),
-            float(line_test),
-            float(line_step_size),
-            line_func,
-            self.addLog,
-        )
+        result = None
+        try:
+            result = mns(
+                start_vec,
+                float(line_stop_term),
+                int(line_iter),
+                float(line_test),
+                float(line_step_size),
+                line_func,
+                self.addLog,
+            )
+        except ProblemSizeError as e:
+            self.addLog(str(e))
+            return
+
         points = list(map(lambda point: [point[0], point[1]], result["points"]))
         x2 = list(map(lambda point: point[0], points))
         y2 = list(map(lambda point: point[1], points))
