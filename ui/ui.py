@@ -35,7 +35,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 start_vec,
                 float(line_stop_term),
                 int(line_iter),
-                float(line_test),
+                self.formatTest(line_test),
                 float(line_step_size),
                 line_func,
                 self.addLog,
@@ -54,6 +54,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def addLog(self, log: str):
         self.ui.textEdit_output.append("\n" + log)
+
+    def formatTest(self, test: str):
+        return float(sp.parse_expr(test))
 
     def addCanvas(self, line_func: str, x2, y2):
         func = function_string_parser(line_func)
