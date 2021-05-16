@@ -22,6 +22,7 @@ class Canvas(FigureCanvas):
             Z = fun(X, Y)
             self.ax.contourf(X, Y, Z, 20, cmap="RdYlGn")
             self.ax.plot(x2, y2, "k")
+            self.ax.plot(x2[-1], y2[-1], "ok")
         except:
             pass
         super(Canvas, self).__init__(fig)
