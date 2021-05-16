@@ -2,11 +2,12 @@ from ui.canvas import Canvas
 from testFunctions import TestFunctions
 from mns import mns
 from ui.ui_first_attempt import Ui_MainWindow
-from PyQt5 import QtWidgets as qtw
+from PyQt5 import QtWidgets
 from functionStringParser import function_string_parser
+import sympy as sp
 
 
-class MainWindow(qtw.QMainWindow):
+class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ui = Ui_MainWindow()
@@ -21,13 +22,27 @@ class MainWindow(qtw.QMainWindow):
         line_step_size = self.ui.lineEdit_step_size.text()
         line_stop_term = self.ui.lineEdit_stop_term.text()
         line_test = self.ui.lineEdit_test.text()
-        # mns()
+
+        # mns(
+        #     sp.Matrix(line_start_vec),
+        #     float(line_stop_term),
+        #     int(line_iter),
+        #     float(line_test),
+        #     float(line_step_size),
+        #     line_func,
+        # )
         self.addCanvas(line_func)
 
     def addCanvas(self, line_func: str):
         func = function_string_parser(line_func)
         sc = Canvas(self, fun=func, width=5, height=4, dpi=100)
-        layout = qtw.QVBoxLayout()
+        layout = self.ui.groupBox_3.layout()
+        if layout is None:
+            layout = QtWidgets.QVBoxLayout()
+
+        for i in reversed(range(layout.count())):
+            layout.itemAt(i).widget().deleteLater()
+
         layout.addWidget(sc)
         self.ui.groupBox_3.setLayout(layout)
 
@@ -54,8 +69,8 @@ class MainWindow(qtw.QMainWindow):
 if __name__ == "__main__":
     import sys
 
-    app = qtw.QApplication(sys.argv)
-    win = qtw.QMainWindow()
+    app = QtWidgets.QApplication(sys.argv)
+    win = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(win)
     win.show()
