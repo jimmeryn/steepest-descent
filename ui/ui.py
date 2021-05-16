@@ -22,16 +22,19 @@ class MainWindow(QtWidgets.QMainWindow):
         line_step_size = self.ui.lineEdit_step_size.text()
         line_stop_term = self.ui.lineEdit_stop_term.text()
         line_test = self.ui.lineEdit_test.text()
-
-        # mns(
-        #     sp.Matrix(line_start_vec),
-        #     float(line_stop_term),
-        #     int(line_iter),
-        #     float(line_test),
-        #     float(line_step_size),
-        #     line_func,
-        # )
+        start_vec = sp.Matrix(list(map(lambda x: float(x), list(line_start_vec.split(", ")))))
+        mns(
+            start_vec,
+            float(line_stop_term),
+            int(line_iter),
+            float(line_test),
+            float(line_step_size),
+            line_func,
+        )
         self.addCanvas(line_func)
+
+    def addLog(self, log: str):
+        self.ui.textEdit_output.setText(self.ui.textEdit_output.text() + "\n" + log)
 
     def addCanvas(self, line_func: str):
         func = function_string_parser(line_func)
