@@ -29,7 +29,7 @@ class MainWindow(QtWidgets.QMainWindow):
         except:
             self.addLog("Blad w punkcie poczatkowym")
             return
-        self.ui.textEdit_output.setText("")
+        self.ui.textBrowser_output.setText("")
         result = None
         try:
             result = mns(
@@ -41,8 +41,10 @@ class MainWindow(QtWidgets.QMainWindow):
                 line_func,
                 self.addLog,
             )
-        except ProblemSizeError as e:
-            self.addLog(str(e))
+        except:
+            self.addLog("Blad w wprowadzonych parametrach") # ostateczny handler błędu, niech bedzie na koniec
+        # except ProblemSizeError as e:
+        #     self.addLog(str(e))
             return
 
         points = list(map(lambda point: [point[0], point[1]], result["points"]))
@@ -54,7 +56,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.addLog("Wymiar problemu > 2")
 
     def addLog(self, log: str):
-        self.ui.textEdit_output.append("\n" + log)
+        self.ui.textBrowser_output.append("\n" + log)
 
     def formatTest(self, test: str):
         return float(sp.parse_expr(test))

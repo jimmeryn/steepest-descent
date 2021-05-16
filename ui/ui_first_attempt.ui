@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>801</width>
-    <height>576</height>
+    <width>794</width>
+    <height>615</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,96 +18,82 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>10</y>
+      <y>40</y>
       <width>301</width>
-      <height>183</height>
+      <height>157</height>
      </rect>
     </property>
     <property name="title">
-     <string>Wejście</string>
+     <string>Parametry</string>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="4" column="3" colspan="3">
-      <widget class="QLineEdit" name="lineEdit_test">
-       <property name="text">
-        <string>1/4</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1" colspan="5">
-      <widget class="QLineEdit" name="lineEdit_function">
-       <property name="text">
-        <string>3*x1 - x2**2 + sin(x3/2):</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="2" colspan="4">
-      <widget class="QLineEdit" name="lineEdit_step_size">
-       <property name="text">
-        <string>9</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0" colspan="3">
-      <widget class="QLabel" name="label_stop_term">
-       <property name="text">
-        <string>Podaj wartość kryteriów stopu:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_function">
-       <property name="text">
-        <string>Wprowadź funkcję:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0" colspan="5">
-      <widget class="QLabel" name="label_start_vector">
-       <property name="text">
-        <string>Podaj wektor wartości początkowych:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="5">
-      <widget class="QLineEdit" name="lineEdit_start_vector">
-       <property name="text">
-        <string>1.0, 3.1, 0</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0" colspan="3">
-      <widget class="QLabel" name="label_test">
-       <property name="text">
-        <string>Wartość współczynnika testu:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0" colspan="4">
-      <widget class="QLabel" name="label_iteration_number">
-       <property name="text">
-        <string>Podaj maksymalną ilość iteracji:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="4" colspan="2">
+     <item row="0" column="2">
       <widget class="QLineEdit" name="lineEdit_iteration">
        <property name="text">
         <string>100</string>
        </property>
       </widget>
      </item>
-     <item row="5" column="0" colspan="2">
+     <item row="1" column="0" colspan="2">
+      <widget class="QLabel" name="label_stop_term">
+       <property name="text">
+        <string>Wartość kryterium stopu:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QLineEdit" name="lineEdit_stop_term">
+       <property name="text">
+        <string>0.001</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_start_vector">
+       <property name="text">
+        <string>Punkt początkowy:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QLineEdit" name="lineEdit_start_vector">
+       <property name="text">
+        <string>1.0, 3.1, 0</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0" colspan="2">
+      <widget class="QLabel" name="label_test">
+       <property name="text">
+        <string>Wartość współczynnika testu:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="2">
+      <widget class="QLineEdit" name="lineEdit_test">
+       <property name="text">
+        <string>1/4</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
       <widget class="QLabel" name="label_step_size">
        <property name="text">
         <string>Początkowa wartość kroku:</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="4" colspan="2">
-      <widget class="QLineEdit" name="lineEdit_stop_term">
+     <item row="4" column="2">
+      <widget class="QLineEdit" name="lineEdit_step_size">
        <property name="text">
-        <string>0.001</string>
+        <string>9</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_iteration_number">
+       <property name="text">
+        <string>Maksymalna ilość iteracji:</string>
        </property>
       </widget>
      </item>
@@ -117,9 +103,9 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>199</y>
+      <y>200</y>
       <width>301</width>
-      <height>341</height>
+      <height>381</height>
      </rect>
     </property>
     <property name="title">
@@ -127,13 +113,23 @@
     </property>
     <layout class="QGridLayout" name="gridLayout_2">
      <item row="0" column="0">
-      <widget class="QTextEdit" name="textEdit_output">
+      <widget class="QTextBrowser" name="textBrowser_output">
        <property name="html">
         <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;tutaj oprócz kolejnych kroków algorytmu można wypisywać wprowadzoną funkcję, to czy znaleziony punkt jest minimum i ewentualnie błędy/wyjątki&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Program dąży do znalezienia minimum funkcji wykorzystując metodę najszybszego spadku z bisekcją z testem dwuskośnym Goldstein'a. Zaimplementowany algorytm obsługuje funkcje posiadające między 2, a 5 zmiennych. Wizualizacja obsługuje tylko zadania z dwoma zmiennymi.&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Przyjętym separatorem dziesiętnym jest kropka. Zmienne należy oznaczać x1, x2, x3, x4, x5, przy czym największy n, przy xn musi być równy ilość zmiennych.&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Parametry:&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Maksymalna ilość iteracji musi być liczbą naturalną.&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Wartość kryterium stopu musi być liczbą.&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Punkt początkowy jest określony jako wektor początkowych wartości kolejnych zmiennych x1, x2... Separatorem między kolejnymi wyrazami wektora jest przecinek i następujący po nim znak biały. Składowe wektora powinny być zadane liczbami.&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Wartość współczynnika testu powinna być liczbą większą od 0 i mniejszą od 0.5.&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Początkowa wartość kroku powinna być liczbą dodatnią.&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Zaprezentowano przykładowe uzupełnienie luk. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
       </widget>
      </item>
@@ -143,7 +139,7 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>330</x>
-      <y>140</y>
+      <y>180</y>
       <width>451</width>
       <height>401</height>
      </rect>
@@ -156,7 +152,7 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>510</x>
-      <y>10</y>
+      <y>40</y>
       <width>271</width>
       <height>131</height>
      </rect>
@@ -198,8 +194,8 @@ p, li { white-space: pre-wrap; }
    <widget class="QGroupBox" name="groupBox_5">
     <property name="geometry">
      <rect>
-      <x>329</x>
-      <y>9</y>
+      <x>330</x>
+      <y>40</y>
       <width>171</width>
       <height>131</height>
      </rect>
@@ -662,6 +658,32 @@ p, li { white-space: pre-wrap; }
       <string>Rozpocznij algorytm</string>
      </property>
     </widget>
+   </widget>
+   <widget class="QLabel" name="label_function">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>10</y>
+      <width>93</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Wprowadź funkcję:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_function">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>10</y>
+      <width>651</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>3*x1 - x2**2 + sin(x3/2)</string>
+    </property>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
