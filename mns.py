@@ -62,12 +62,13 @@ def mns(start, epsilon: float, L: int, beta: float, tau0: float, function: str, 
                 + str(k)
                 + " iteracjach."
             )
+            extreme_type = None
             if not is_point_minimum(fun, xk):
                 logger("Jednakże znaleziony punkt nie jest minimum.")
-                vec_xk.append(sp.Matrix([1, 1]))
+                extreme_type = 1
             else:
-                vec_xk.append(sp.Matrix([1, 0]))
-            return vec_xk
+                extreme_type = 0
+            return {"points": vec_xk, "condition_type": 1, "extreme_type": extreme_type}
 
         dk = -grad0
         # logger("kierunek: " + str(dk))
@@ -89,12 +90,16 @@ def mns(start, epsilon: float, L: int, beta: float, tau0: float, function: str, 
                     + str(k)
                     + " iteracjach."
                 )
+                condition_type = None
+                extreme_type = None
                 if not is_point_minimum(fun, xk):
                     logger("Jednakże znaleziony punkt nie jest minimum.")
-                    vec_xk.append(sp.Matrix([2, 1]))
+                    condition_type = 2
+                    extreme_type = 1
                 else:
-                    vec_xk.append(sp.Matrix([2, 0]))
-                return vec_xk
+                    condition_type = 2
+                    extreme_type = 0
+                return {"points": vec_xk, "condition_type": condition_type, "extreme_type": extreme_type}
 
             replacementsnewk = [("x" + str(i), xk[i - 1]) for i in range(1, problem_size + 1)]
             isvaluessclose = abs(fun.subs(replacementsnewk) - fun.subs(replacements0))
@@ -107,18 +112,20 @@ def mns(start, epsilon: float, L: int, beta: float, tau0: float, function: str, 
                     + " iteracjach, osiągając wartość: "
                     + str(fun.subs(replacementsnewk))
                 )
+                condition_type = None
+                extreme_type = 3
                 if not is_point_minimum(fun, xk):
                     logger("Jednakże znaleziony punkt nie jest minimum.")
-                    vec_xk.append(sp.Matrix([3, 1]))
+                    extreme_type = 1
                 else:
-                    vec_xk.append(sp.Matrix([3, 0]))
-                return vec_xk
+                    extreme_type = 0
+                return {"points": vec_xk, "condition_type": condition_type, "extreme_type": extreme_type}
 
-        logger("Iteracja: " + str(k) + ", Punkt: " + str(xk))
+        logger(str(k) + ". " + str(xk))
 
     logger("Nie udało się znaleźć minimum w " + str(k) + " iteracjach.")
     logger(str(xk))
-    return 0
+    return {"points": vec_xk, "condition_type": None, "extreme_type": None}
 
 
 # zwraca true jesli punkt jest minimum funkcji, false jeśli nie ma do tego pewnosci

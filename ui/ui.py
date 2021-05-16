@@ -24,7 +24,7 @@ class MainWindow(QtWidgets.QMainWindow):
         line_test = self.ui.lineEdit_test.text()
         start_vec = sp.Matrix(list(map(lambda x: float(x), list(line_start_vec.split(", ")))))
         self.ui.textEdit_output.setText("")
-        mns(
+        result = mns(
             start_vec,
             float(line_stop_term),
             int(line_iter),
@@ -33,17 +33,20 @@ class MainWindow(QtWidgets.QMainWindow):
             line_func,
             self.addLog,
         )
+        points = list(map(lambda point: [point[0], point[1]], result["points"]))
+        x2 = list(map(lambda point: point[0], points))
+        y2 = list(map(lambda point: point[1], points))
         try:
-            self.addCanvas(line_func)
+            self.addCanvas(line_func, x2, y2)
         except:
             self.addLog("Wymiar problemu > 2")
 
     def addLog(self, log: str):
         self.ui.textEdit_output.append("\n" + log)
 
-    def addCanvas(self, line_func: str):
+    def addCanvas(self, line_func: str, x2, y2):
         func = function_string_parser(line_func)
-        sc = Canvas(self, fun=func, width=5, height=4, dpi=100)
+        sc = Canvas(self, fun=func, width=5, height=4, dpi=100, x2=x2, y2=y2)
         layout = self.ui.groupBox_3.layout()
         if layout is None:
             layout = QtWidgets.QVBoxLayout()
