@@ -1,3 +1,4 @@
+from matplotlib.backends.backend_qt5 import NavigationToolbar2QT
 from ui.canvas import Canvas
 from testFunctions import TestFunctions
 from mns import mns
@@ -61,6 +62,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def addCanvas(self, line_func: str, x2, y2):
         func = function_string_parser(line_func)
         sc = Canvas(self, fun=func, width=5, height=4, dpi=100, x2=x2, y2=y2)
+        toolbar = NavigationToolbar2QT(sc, self)
         layout = self.ui.groupBox_3.layout()
         if layout is None:
             layout = QtWidgets.QVBoxLayout()
@@ -68,6 +70,7 @@ class MainWindow(QtWidgets.QMainWindow):
         for i in reversed(range(layout.count())):
             layout.itemAt(i).widget().deleteLater()
 
+        layout.addWidget(toolbar)
         layout.addWidget(sc)
         self.ui.groupBox_3.setLayout(layout)
 
