@@ -6,5 +6,5 @@ def goldstein_values_exception(problem_size, tauR, beta):
         raise ProblemSizeError("Liczba zmiennych powinna być z przedziału [2, 5].")
     if not tauR > 0:
         raise ProblemSizeError("Współczynnik kroku powinien być większy od zera.")
-    if not 0 < beta < 1:
-        raise ProblemSizeError("Współczynnik testu powinien być z przedziału (0, 1).")
+    if not 0 < beta < 0.5:
+        raise ProblemSizeError("Współczynnik testu powinien być z przedziału (0, 0.5).")
