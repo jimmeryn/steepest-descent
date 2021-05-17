@@ -21,8 +21,8 @@ class Canvas(FigureCanvas):
             X, Y = np.meshgrid(x1, y1)
             Z = fun(X, Y)
             self.ax.contourf(X, Y, Z, 20, cmap="RdYlGn")
-            self.ax.plot(x2, y2, "k")
-            self.ax.plot(x2[-1], y2[-1], "ok")
+            self.ax.plot(x2, y2, "o-k", linewidth=0.3, markersize=2)
+            self.ax.plot(x2[-1], y2[-1], "ok", markersize=5, markerfacecolor="white")
         except:
             pass
         super(Canvas, self).__init__(fig)
