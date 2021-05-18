@@ -1,5 +1,6 @@
 import sympy as sp
 from errorhandlers.goldstein_values_exception import goldstein_values_exception
+from getGrad import getGrad
 
 # start - punkt początkowy
 # d - kierunek będący wektorem
@@ -26,29 +27,8 @@ def goldstein(start, d, beta: float, tauR: float, epsilon: float, function: str,
     for i in range(0, problem_size):
         grad.append(sp.Derivative(fun, variables[i], evaluate=True))  # Tworzę listę z kolejnych pochodnych cząstkowych
 
-    grad03 = 0
-    grad04 = 0
-    grad05 = 0
-
     replacements0 = [("x" + str(i), start[i - 1]) for i in range(1, problem_size + 1)]
-
-    grad01 = grad[0].subs(replacements0).evalf()
-    grad02 = grad[1].subs(replacements0).evalf()
-    if problem_size > 2:
-        grad03 = grad[2].subs(replacements0).evalf()
-    if problem_size > 3:
-        grad04 = grad[3].subs(replacements0).evalf()
-    if problem_size > 4:
-        grad05 = grad[4].subs(replacements0).evalf()
-
-    if problem_size == 2:
-        grad0 = sp.Matrix([grad01, grad02])
-    if problem_size == 3:
-        grad0 = sp.Matrix([grad01, grad02, grad03])
-    if problem_size == 4:
-        grad0 = sp.Matrix([grad01, grad02, grad03, grad04])
-    if problem_size == 5:
-        grad0 = sp.Matrix([grad01, grad02, grad03, grad04, grad05])
+    grad0 = getGrad(problem_size, grad, replacements0)
 
     p = (grad0.T * d)[
         0
@@ -59,10 +39,10 @@ def goldstein(start, d, beta: float, tauR: float, epsilon: float, function: str,
     tauL = 0
 
     replacementstauR = [("x" + str(i), (start[i - 1] + tauR * d[i - 1])) for i in range(1, problem_size + 1)]
-
+    fxzero = fun.subs(replacements0).evalf()
     # sprawdzenie warunku
 
-    if fun.subs(replacementstauR).evalf() < fun.subs(replacements0).evalf():
+    if fun.subs(replacementstauR).evalf() < fxzero:
         return tauR
 
     # krok 2
@@ -77,11 +57,11 @@ def goldstein(start, d, beta: float, tauR: float, epsilon: float, function: str,
         k += 1
 
         # krok 3
-        if fxtaud < fun.subs(replacements0).evalf() + (1 - beta) * p * tau - epsilon:
+        if fxtaud < fxzero + (1 - beta) * p * tau - epsilon:
             tauL = tau
 
         # krok 4
-        elif fxtaud > fun.subs(replacements0).evalf() + beta * p * tau + epsilon:
+        elif fxtaud > fxzero + beta * p * tau + epsilon:
             tauR = tau
 
         else:
