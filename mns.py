@@ -64,7 +64,7 @@ def mns(start, epsilon: float, L: int, beta: float, tau0: float, function: str, 
             )
             extreme_type = None
             if not is_point_minimum(fun, xk):
-                logger("Jednakże znaleziony punkt nie jest minimum.")
+                logger("Jednakże znaleziony punkt nie jest minimum. Hesjan nie jest dodatnio określony.")
                 extreme_type = 1
             else:
                 extreme_type = 0
@@ -72,9 +72,10 @@ def mns(start, epsilon: float, L: int, beta: float, tau0: float, function: str, 
 
         dk = -grad0
         # logger("kierunek: " + str(dk))
-        tau = goldstein(xk, dk, beta, tau, epsilon, function, logger)
+        tau = goldstein(xk, dk, beta, tau0, epsilon, function, logger)
         xk += tau * dk
         vec_xk.append(xk)
+
         if k > 1:
             ispointsclose = 0
             for i in range(0, problem_size):
@@ -93,7 +94,7 @@ def mns(start, epsilon: float, L: int, beta: float, tau0: float, function: str, 
                 condition_type = None
                 extreme_type = None
                 if not is_point_minimum(fun, xk):
-                    logger("Jednakże znaleziony punkt nie jest minimum.")
+                    logger("Jednakże znaleziony punkt nie jest minimum. Hesjan nie jest dodatnio określony.")
                     condition_type = 2
                     extreme_type = 1
                 else:
@@ -115,13 +116,11 @@ def mns(start, epsilon: float, L: int, beta: float, tau0: float, function: str, 
                 condition_type = None
                 extreme_type = 3
                 if not is_point_minimum(fun, xk):
-                    logger("Jednakże znaleziony punkt nie jest minimum.")
+                    logger("Jednakże znaleziony punkt nie jest minimum. Hesjan nie jest dodatnio określony.")
                     extreme_type = 1
                 else:
                     extreme_type = 0
                 return {"points": vec_xk, "condition_type": condition_type, "extreme_type": extreme_type}
-
-        logger(str(k) + ". " + str(xk))
 
     logger("Nie udało się znaleźć minimum w " + str(k) + " iteracjach.")
     logger(str(xk))
