@@ -42,7 +42,7 @@ def mns(start, epsilon: float, L: int, beta: float, tau0: float, function: str, 
                 "Osiągnięto warunek stopu zależny od iloczynu skalarnego gradientów w punkcie "
                 + str(xk)
                 + " po "
-                + str(k)
+                + str(k-1)
                 + " iteracjach."
             )
             extreme_type = None
@@ -73,6 +73,8 @@ def mns(start, epsilon: float, L: int, beta: float, tau0: float, function: str, 
                     + " po "
                     + str(k)
                     + " iteracjach."
+                    + " Osiągając kryterium stopu równe: "
+                    + str(ispointsclose)
                 )
                 condition_type = None
                 extreme_type = None
@@ -95,6 +97,8 @@ def mns(start, epsilon: float, L: int, beta: float, tau0: float, function: str, 
                     + str(k)
                     + " iteracjach, osiągając wartość: "
                     + str(fun.subs(replacementsnewk))
+                    + " Osiągając kryterium stopu równe: "
+                    + str(isvaluessclose)
                 )
                 condition_type = None
                 extreme_type = 3
@@ -106,6 +110,9 @@ def mns(start, epsilon: float, L: int, beta: float, tau0: float, function: str, 
                 return {"points": vec_xk, "condition_type": condition_type, "extreme_type": extreme_type}
 
         replacementsnewk = [("x" + str(i), xk[i - 1]) for i in range(1, problem_size + 1)]
+        grad0 = getGrad(problem_size, grad, replacementsnewk)
+
+        scalar_product = (grad0.T * grad0)[0]
         logger(
             "Iteracja "
             + str(k)

@@ -252,13 +252,13 @@ class Ui_MainWindow(object):
         self.groupBox.setTitle(_translate("MainWindow", "Parametry"))
         self.lineEdit_iteration.setText(_translate("MainWindow", "100"))
         self.label_stop_term.setText(_translate("MainWindow", "Wartość kryterium stopu:"))
-        self.lineEdit_stop_term.setText(_translate("MainWindow", "0.001"))
+        self.lineEdit_stop_term.setText(_translate("MainWindow", "0.00001"))
         self.label_start_vector.setText(_translate("MainWindow", "Punkt początkowy:"))
-        self.lineEdit_start_vector.setText(_translate("MainWindow", "1.0, 3.1, 0"))
+        self.lineEdit_start_vector.setText(_translate("MainWindow", "0, 0"))
         self.label_test.setText(_translate("MainWindow", "Wartość współczynnika testu:"))
-        self.lineEdit_test.setText(_translate("MainWindow", "1/4"))
+        self.lineEdit_test.setText(_translate("MainWindow", "2/5"))
         self.label_step_size.setText(_translate("MainWindow", "Początkowa wartość kroku:"))
-        self.lineEdit_step_size.setText(_translate("MainWindow", "9"))
+        self.lineEdit_step_size.setText(_translate("MainWindow", "2"))
         self.label_iteration_number.setText(_translate("MainWindow", "Maksymalna ilość iteracji:"))
         self.groupBox_2.setTitle(_translate("MainWindow", "Logi"))
         self.textBrowser_output.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
@@ -285,7 +285,7 @@ class Ui_MainWindow(object):
         self.groupBox_5.setTitle(_translate("MainWindow", "Start"))
         self.pushButton_start_algorythm.setText(_translate("MainWindow", "Rozpocznij algorytm"))
         self.label_function.setText(_translate("MainWindow", "Wprowadź funkcję:"))
-        self.lineEdit_function.setText(_translate("MainWindow", "3*x1 - x2**2 + sin(x3/2)"))
+        self.lineEdit_function.setText(_translate("MainWindow", "(x1-2)**2+(x2-2)**2"))
 
 
 if __name__ == "__main__":
